@@ -8,6 +8,16 @@ export const getAppointmentsForDay = (state, day) => {
   return Object.values(appointments).filter((app) => appts.includes(app.id));
 };
 
+export const getInterviewersForDay = (state, day) => {
+  const { days, interviewers } = state;
+  const filteredInterviewers = days.filter(date => date.name === day);
+  if (!filteredInterviewers.length) {
+    return [];
+  }
+
+  return Object.values(interviewers).filter((app) => filteredInterviewers[0].interviewers.includes(app.id));
+};
+
 export const getInterview = (state, interview) => {
   if (!interview) {
     return null;
