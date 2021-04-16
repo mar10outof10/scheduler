@@ -77,6 +77,14 @@ export default function Application(props) {
     setState({...state, appointments })
   }
 
+  const cancelInterview = id => {
+    const appointments = {
+      ...state.appointments,
+      [id]: { ...state.appointments[id], interview: null }
+    }
+    console.log(appointments);
+    setState({ ...state, appointments});
+  }
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 
@@ -91,6 +99,7 @@ export default function Application(props) {
       interview={interview}
       interviewers={interviewers}
       bookInterview={bookInterview}
+      cancelInterview={cancelInterview}
       />
     )
   }))
