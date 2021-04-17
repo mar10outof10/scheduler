@@ -34,21 +34,7 @@ import { getAppointmentsForDay, getInterviewersForDay, getInterview } from "help
 //         avatar: "https://i.imgur.com/LpaY82x.png",
 //       }
 //     }
-//   },
-//   {
-//     id: 4,
-//     time: "1pm",
-//     interview: {
-//       student: "Eyyyyyy Jones",
-//       interviewer: {
-//         id: 4,
-//         name: "Cohana Roy",
-//         avatar: "https://i.imgur.com/FK8V841.jpg",
-//       }
-//     }
-//   }
-// ];
-
+//   };
 
 export default function Application(props) {
 
@@ -72,9 +58,8 @@ export default function Application(props) {
       [id]: appointment
     };
 
-    axios.put(`/api/appointments/${id}`, { interview })
-
-    setState({...state, appointments })
+    return Promise.resolve(axios.put(`/api/appointments/${id}`, { interview }))
+    .then(setState({...state, appointments }));
   }
 
   const cancelInterview = id => {
@@ -83,9 +68,8 @@ export default function Application(props) {
       [id]: { ...state.appointments[id], interview: null }
     }
 
-    axios.delete(`/api/appointments/${id}`)
-    
-    setState({ ...state, appointments});
+    return Promise.resolve(axios.delete(`/api/appointments/${id}`))    
+    .then(setState({ ...state, appointments}));
   }
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
