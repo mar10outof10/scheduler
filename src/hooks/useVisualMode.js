@@ -7,7 +7,7 @@ export default function useVisualMode(initial) {
   
   const transition = (newMode, replaceHistory = false) => {
     if (!replaceHistory) {
-      history.push(mode);
+      setHistory(prev => ([...prev, mode]))
     }
     setMode(newMode)
   }

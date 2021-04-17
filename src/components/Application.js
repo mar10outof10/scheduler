@@ -58,8 +58,8 @@ export default function Application(props) {
       [id]: appointment
     };
 
-    return Promise.resolve(axios.put(`/api/appointments/${id}`, { interview }))
-    .then(setState({...state, appointments }));
+    return axios.put(`/api/appointments/${id}`, { interview })
+    .then(() => setState({...state, appointments }))
   }
 
   const cancelInterview = id => {
@@ -68,8 +68,8 @@ export default function Application(props) {
       [id]: { ...state.appointments[id], interview: null }
     }
 
-    return Promise.resolve(axios.delete(`/api/appointments/${id}`))    
-    .then(setState({ ...state, appointments}));
+    return axios.delete(`/api/appointments/${id}`)
+    .then(() => setState({ ...state, appointments}));
   }
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
