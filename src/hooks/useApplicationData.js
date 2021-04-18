@@ -1,18 +1,49 @@
-import { useState, useEffect } from "react";
+import { useEffect, useReducer } from "react";
 import axios from "axios";
 
 import { cloneDeep } from "lodash";
 
 export default function useApplicationData() {
-  //state.days.appointmentId.spots
-  const [state, setState] = useState({
+  const defaultState = {
     day: "Monday",
     days: [],
-    appointments: {},
-    interviewers: {}
-  });
+    interviewers: {},
+    appointments: {}
+  }
+  
+  const reducers = {
+    setDay(state, action) {
+      return {
+        ...state,
+        day: action.day
+    }
+    },
+    setApplicationData(state, action) {
+      return {
+        ...state,
+        days: action.days,
+        appointments: action.appointments,
+        interviewers: action.interviewers
+      }
+    },
+    setInterview(state, action) {
+      return {
+        ...state,
+        appointments: action.appointments,
+        days: action.days
+      }
+    }
+  };
+  
+  function reducer(state, action) {
+    return reducers[action.type](state, action) || state
+  }
 
-  const setDay = day => setState({...state, day});
+
+
+  const [state, dispatch] = useReducer(reducer, defaultState); 
+
+  const setDay = day => dispatch({ type: 'setDay', day});
   
   const dayIndex = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].indexOf(state.day);
 
@@ -33,7 +64,7 @@ export default function useApplicationData() {
     days[dayIndex].spots--
 
     return axios.put(`/api/appointments/${id}`, { interview })
-    .then(() => setState({...state, appointments, days }))
+    .then(() => dispatch({ type: 'setInterview', appointments, days }))
   }
   
   const cancelInterview = id => {
@@ -47,7 +78,7 @@ export default function useApplicationData() {
     days[dayIndex].spots++
 
     return axios.delete(`/api/appointments/${id}`)
-    .then(() => setState({ ...state, appointments, days }));
+    .then(() => dispatch({ type: 'setInterview', appointments, id, days }));
   }
 
   const daysPromise = Promise.resolve(axios.get("/api/days"));
@@ -56,7 +87,7 @@ export default function useApplicationData() {
   useEffect(() => {
     Promise.all([daysPromise, apptsPromise, interviewersPromise])
       .then(all => {
-        setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data}))
+        dispatch({ type: 'setApplicationData', days: all[0].data, appointments: all[1].data, interviewers: all[2].data})
       })
   }, [])
 
