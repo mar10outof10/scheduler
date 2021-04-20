@@ -47,7 +47,7 @@ export default function useApplicationData() {
   
   const dayIndex = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].indexOf(state.day);
 
-  const bookInterview = (id, interview) => {
+  const bookInterview = (id, interview, edit=false) => {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview}
@@ -61,7 +61,9 @@ export default function useApplicationData() {
 
     // returns state.days copy where spots is reduced by 1 for target day
     const days = cloneDeep(state.days);
-    days[dayIndex].spots--
+    if (!edit) {
+      days[dayIndex].spots--
+    }
 
     return axios.put(`/api/appointments/${id}`, { interview })
     .then(() => dispatch({ type: 'setInterview', appointments, days }))

@@ -24,7 +24,7 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
-  const save = (name, interviewer) => {
+  const save = (name, interviewer, edit) => {
     if (!name || !interviewer) {
       return
     }
@@ -34,7 +34,7 @@ export default function Appointment(props) {
     };
     transition(SAVING);
 
-    props.bookInterview(props.id, interview)
+    props.bookInterview(props.id, interview, edit)
     .then(() => transition(SHOW))
     .catch(() => transition(ERROR_SAVE, true))
   };
@@ -78,6 +78,7 @@ export default function Appointment(props) {
         interviewers={props.interviewers} 
         onCancel={() => back()}
         onSave={save}
+        edit={true}
         />}
       {mode === CONFIRM && <Confirm message='Are you sure you would like to delete?' onConfirm={onConfirm} onCancel={() => back()} />}
       {mode === SAVING && <Status message='Saving...' />}
