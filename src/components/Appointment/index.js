@@ -57,7 +57,7 @@ export default function Appointment(props) {
   return (
     <Fragment>
     <Header time={props.time} />
-    <article className="appointment">
+    <article data-testid="appointment" className="appointment">
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && (
         <Show
