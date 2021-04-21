@@ -4,6 +4,8 @@ import { getByText, getAllByTestId, getByAltText, getByPlaceholderText, prettyDO
 
 import Application from "components/Application";
 
+import axios from "axios";
+
 afterEach(cleanup);
 
 describe("Application", () => {
@@ -95,16 +97,42 @@ describe("Application", () => {
   });
 
   it("shows the save error when failing to save an appointment", async () => {
-    // 1. Render the Application
-    const { container } = render(<Application />);
-    //2. Wait until the text "Archie Cohen is displayed"
+    axios.put.mockRejectedValueOnce();
+
+    const { container, debug } = render(<Application />);
+
     await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    const appointment = getAllByTestId(container, "appointment").find(
+      appointment => queryByText(appointment, "Archie Cohen")
+    );
+    fireEvent.click(getByAltText(appointment, "Edit"));
+
+    await waitForElement(() => getByPlaceholderText(appointment, "Enter Student Name"))
+
+    fireEvent.change(getByPlaceholderText(appointment, "Enter Student Name"), {
+      target: { value: "Edited Pseudonym" }
+    });
+    fireEvent.click(getByText(appointment, "Save"));
+
+    await waitForElement(() => getByText(appointment, "Error saving appointment"));
   });
 
   it("shows the delete error when failing to delete an existing appointment", async () => {
-    // 1. Render the Application
+    axios.delete.mockRejectedValueOnce();
+
     const { container } = render(<Application />);
-    //2. Wait until the text "Archie Cohen is displayed"
+
     await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    const appointment = getAllByTestId(container, "appointment").find(
+      appointment => queryByText(appointment, "Archie Cohen")
+    );
+    fireEvent.click(getByAltText(appointment, "Delete"));
+
+    await waitForElement(() => getByText(appointment, "Are you sure you would like to delete?"))
+    fireEvent.click(getByText(appointment, "Confirm"))
+
+    await waitForElement(() => getByText(appointment, "Error deleting appointment"));
   });
 });
