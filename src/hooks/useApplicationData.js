@@ -47,29 +47,42 @@ export default function useApplicationData() {
   
   const dayIndex = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].indexOf(state.day);
 
+  /**
+   * Function called to book an interview object to state.appointments[id] and write it to the database
+   * @param {*} id str, one digit from 0-4 corresponding to a DayListItem
+   * @param {*} interview object, interview object with paramaters completed in form
+   * @param {*} edit boolean, optional parameter. Prevent spots from decrementing when editing existing appointment. Default is false.
+   * @returns 
+   */
   const bookInterview = (id, interview, edit=false) => {
+    // appointment object, copy of state.appointments of day with interview parameter added
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview}
     };
   
+    // copy of state.appointments with our appointment object added to it
     const appointments = {
       ...state.appointments,
       [id]: appointment
     };
-    // state.days[dayIndex].spots
 
-    // returns state.days copy where spots is reduced by 1 for target day
+    // returns state.days copy where spots is reduced by 1 for target day unless edit flag is true in which case spots do not change
     const days = cloneDeep(state.days);
     if (!edit) {
       days[dayIndex].spots--
     }
-
+    //axios call writes appointment in database, then if it succeeds dispatch adds the interview to the state
     return axios.put(`/api/appointments/${id}`, { interview })
     .then(() => dispatch({ type: 'setInterview', appointments, days }))
   }
-  
+  /**
+   * Deletes appointment of given id from database and state
+   * @param {*} id str, any 1 of the digits 1-25 corresponding to one of the appointments in the state.
+   * @returns 
+   */
   const cancelInterview = id => {
+    // Creates appointment object where appointment corresponding to id has interview property set to null
     const appointments = {
       ...state.appointments,
       [id]: { ...state.appointments[id], interview: null }
@@ -78,11 +91,11 @@ export default function useApplicationData() {
     // returns state.days copy where spots is increased by 1 for target day
     const days = cloneDeep(state.days);
     days[dayIndex].spots++
-
+    // removes appointment from database. If succeeds, sets state accordingly.
     return axios.delete(`/api/appointments/${id}`)
     .then(() => dispatch({ type: 'setInterview', appointments, id, days }));
   }
-
+  // axios calls to database to generate state from scheduler_api data.
   const daysPromise = Promise.resolve(axios.get("/api/days"));
   const apptsPromise = Promise.resolve(axios.get("/api/appointments"));
   const interviewersPromise = Promise.resolve(axios.get("/api/interviewers"));
