@@ -17,13 +17,15 @@ Interview Scheduler is a simple, single-page Interview Scheduling App. Tweeter i
 
 1. Fork this repository, then clone your fork of this repository.
 2. Install dependencies using the `npm install` command.
-3. Optional: Fork the [scheduler api](https://github.com/lighthouse-labs/scheduler-api) and run the database yourself following the readme instructions there
-4. Start the web server using the `npm start` command. The app will be served at <http://localhost:8000/>.
+3. Fork the [scheduler api](https://github.com/lighthouse-labs/scheduler-api) and run the database yourself following the readme instructions there to setup the database.
+4. Start the web server using the `npm start` command. The app will be served at <http://localhost:8000/>. The database must also be started. It will run at <http://localhost:8001> and will be proxied to the scheduler app.
 5. Go to <http://localhost:8000/> in your browser.
 
 ## Dependencies
-
--
+- Axios
+- React
+- Babel
+- testing-library, Jest, Cypress, Storybook
 
 ## Stretch/future additions
 
