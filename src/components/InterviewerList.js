@@ -1,9 +1,9 @@
 import React from "react";
 import InterviewerListItem from "./InterviewerListItem";
-import "./InterviewerList.scss"
+import "./InterviewerList.scss";
 import PropTypes from 'prop-types';
 
-function InterviewerList(props) {
+const InterviewerList = props => {
   // maps the interviewers list given in the props to give a list of InterviewerListItem 's
   const interviewers = props.interviewers.map((interviewer) => {
     return (

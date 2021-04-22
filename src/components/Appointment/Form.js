@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Button from "../Button"
-import InterviewerList from "../InterviewerList"
+import Button from "../Button";
+import InterviewerList from "../InterviewerList";
 
 export default function Form(props) {
 
@@ -12,23 +12,23 @@ export default function Form(props) {
   const reset = () => {
     setName("");
     setInterviewer(null);
-  }
+  };
   const cancel = () => {
     // function called when cancel button is clicked. Resets form, onCancel() causes mode to go back in history
     reset();
-    props.onCancel()
-  }
+    props.onCancel();
+  };
   // function validates form entry to make sure it's not empty
-  function validate() {
+  const validate = () => {
     if (name === "") {
       setError("Student name cannot be blank");
-      return
+      return;
     }
     
     setError("");
     // if form is being edited passes true to onSave to avoid spot counter decrementing
     props.edit ? props.onSave(name, interviewer, true) : props.onSave(name, interviewer, false);
-  }
+  };
 
   return (
     <main className="appointment__card appointment__card--create">
