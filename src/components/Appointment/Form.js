@@ -3,22 +3,22 @@ import Button from "../Button"
 import InterviewerList from "../InterviewerList"
 
 export default function Form(props) {
-  //name:string, interviewers:array, value:number, onSave:function, onCancel:fucntion
+
   const [name, setName] = useState(props.name || "");
   const [error, setError] = useState("");
 
   const [interviewer, setInterviewer] = useState(props.value || null);
-
+  // resets form state if submission is cancelled
   const reset = () => {
     setName("");
     setInterviewer(null);
   }
-
   const cancel = () => {
+    // function called when cancel button is clicked. Resets form, onCancel() causes mode to go back in history
     reset();
     props.onCancel()
   }
-
+  // function validates form entry to make sure it's not empty
   function validate() {
     if (name === "") {
       setError("Student name cannot be blank");
@@ -26,6 +26,7 @@ export default function Form(props) {
     }
     
     setError("");
+    // if form is being edited passes true to onSave to avoid spot counter decrementing
     props.edit ? props.onSave(name, interviewer, true) : props.onSave(name, interviewer, false);
   }
 
