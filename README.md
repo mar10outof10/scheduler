@@ -9,9 +9,9 @@ Install dependencies with `npm install`.
 Interview Scheduler is a simple, single-page Interview Scheduling App. Tweeter is built primarily using React with HTML, CSS, and javascript along with axios to access a database and save the appointment data. Interview Scheduler features robust testing using Jest, Cypress, and Storybook 
 
 ## Screenshots
-!["Interviews with day list"](LINK)
+!["Interviews with day list"](https://github.com/mar10outof10/scheduler/blob/master/blob/main/docs/schedulerUI.png?raw=true)
 
-!["Various appointment states to be rendered"](LINK)
+!["Various appointment states to be rendered"](https://github.com/mar10outof10/scheduler/blob/master/blob/main/docs/schedulerAppts.png?raw=true)
 
 ## Getting Started
 
