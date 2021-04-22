@@ -1,5 +1,5 @@
 import { getAppointmentsForDay, getInterviewersForDay, getInterview } from "helpers/selectors.js";
-
+// example state to be used for tests
 const state = {
   days: [
     {
