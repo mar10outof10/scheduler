@@ -4,10 +4,10 @@ import classNames from "classnames";
 
 export default function DayListItem(props) {
   const listClass = classNames("day-list__item", {
-    "day-list__item--selected": props.selected,
-    "day-list__item--full": (props.spots === 0)
+    "day-list__item--selected": props.selected, // if selected
+    "day-list__item--full": (props.spots === 0) // if no more spots
   });
-
+  // function formats spots remaining string
   const formatSpots = (props) => {
     if (props.spots > 0) {
       return `${props.spots} spot${props.spots === 1 ? '' : 's'} remaining`

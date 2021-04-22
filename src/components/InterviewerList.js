@@ -4,7 +4,7 @@ import "./InterviewerList.scss"
 import PropTypes from 'prop-types';
 
 function InterviewerList(props) {
-  // interviewers:array, value:number, onChange:function
+  // maps the interviewers list given in the props to give a list of InterviewerListItem 's
   const interviewers = props.interviewers.map((interviewer) => {
     return (
       <InterviewerListItem 
@@ -16,7 +16,7 @@ function InterviewerList(props) {
       />
     )
   })
-
+  // returns a section with a list of interview icons beneath the the header
   return (
 
       <section className="interviewers">
@@ -26,7 +26,7 @@ function InterviewerList(props) {
   )
 
 }
-
+// validates props
 InterviewerList.propTypes = {
   interviewers: PropTypes.array.isRequired
 };

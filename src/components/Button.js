@@ -18,6 +18,3 @@ export default function Button(props) {
   </button>
   );
 };
-
-
-// return <button className={buttonClass}>{props.children}</button>;
